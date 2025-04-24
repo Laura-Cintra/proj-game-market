@@ -1,8 +1,10 @@
 package com.example.proj_game_market.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+ import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
+ 
 import com.example.proj_game_market.model.Item;
+import com.example.proj_game_market.model.RaridadeItem;
+import com.example.proj_game_market.model.TipoItem;
 import com.example.proj_game_market.repository.ItemRepository;
+import com.example.proj_game_market.specification.ItemSpecification;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +30,19 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/item")
 @Slf4j
 public class ItemController {
+
+    public record ItemFilters(String nome, TipoItem tipo, RaridadeItem raridade, Integer firstPrice, Integer endPrice){}    
     
     @Autowired
     private ItemRepository itemRepository;
 
     @GetMapping
-    public List<Item> index() {
-        return itemRepository.findAll();
+    public Page<Item> index(
+        ItemFilters filters,
+        @PageableDefault(size= 5, sort = "preco", direction = Sort.Direction.ASC) Pageable pageable
+    ) {
+        var specification = ItemSpecification.withFilters(filters);
+        return itemRepository.findAll(specification, pageable);
     } 
 
     @PostMapping
