@@ -67,7 +67,7 @@ public class ItemController {
 
     @PutMapping("{id}")
     public ResponseEntity<Object> update(@PathVariable @Valid Long id, @RequestBody Item item) {
-        log.info("Atualizando categoria + " + id + " com " + item);
+        log.info("Atualizando item + " + id + " com " + item);
 
         getItem(id);
         item.setId(id); 
