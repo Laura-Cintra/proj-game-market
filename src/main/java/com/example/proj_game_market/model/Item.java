@@ -38,7 +38,7 @@ public class Item {
     private RaridadeItem raridade;
 
     @Positive(message = "O preço deve ser positivo e maior que 0")
-    private int preco;
+    private Integer preco;
 
     @NotNull(message = "Campo obrigatório")
     @ManyToOne
