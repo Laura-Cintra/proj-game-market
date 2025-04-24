@@ -1,8 +1,10 @@
 package com.example.proj_game_market.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,8 +18,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.proj_game_market.model.ClasseType;
 import com.example.proj_game_market.model.Personagem;
 import com.example.proj_game_market.repository.PersonagemRepository;
+import com.example.proj_game_market.specification.PersonagemSpecification;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +30,20 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("personagem")
 @Slf4j
 public class PersonagemController {
+
+    public record PersonagemFilters(String nome, ClasseType type) {
+    }
+
     @Autowired
     private PersonagemRepository repository;
 
     @GetMapping
-    public List<Personagem> index() {
-        return repository.findAll();
+    public Page<Personagem> index(
+            PersonagemFilters filters,
+            @PageableDefault(size = 5, sort = "nome", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        var specification = PersonagemSpecification.withFilters(filters);
+        return repository.findAll(specification, pageable);
     }
 
     @PostMapping
