@@ -27,18 +27,18 @@ public class Personagem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "nome é obrigatório")
-    @Size(min = 3, message = "deve ter pelo menos 3 caracteres")
+    @NotBlank(message = "Nome é obrigatório")
+    @Size(min = 3, message = "Deve ter pelo menos 3 caracteres")
     private String nome;
 
-    @NotNull(message = "classe é obrigatória")
+    @NotNull(message = "Classe é obrigatória")
     @Enumerated(EnumType.STRING)
     private ClasseType type;
 
-    @Min(value = 1, message = "nível mínimo é 1")
-    @Max(value = 99, message = "nível mínimo é 99")
+    @Min(value = 1, message = "Nível não pode ser abaixo de 1")
+    @Max(value = 99, message = "Nível não pode ser acima de 99")
     private int nivel;
 
-    @PositiveOrZero(message = "deve ser positivo")
+    @PositiveOrZero(message = "Deve ser positivo")
     private int moedas;
 }
