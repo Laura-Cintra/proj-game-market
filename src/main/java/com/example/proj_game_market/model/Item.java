@@ -6,6 +6,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -38,5 +39,9 @@ public class Item {
 
     @Positive(message = "O preço deve ser positivo e maior que 0")
     private int preco;
+
+    @NotNull(message = "Campo obrigatório")
+    @ManyToOne
+    private Personagem personagem;
 
 }
