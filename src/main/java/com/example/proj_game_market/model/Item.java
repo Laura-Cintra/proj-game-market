@@ -22,7 +22,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Item {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "Não pode estar em branco")
@@ -30,11 +31,11 @@ public class Item {
     private String nome;
 
     @NotNull(message = "Campo obrigatório!")
-    @Enumerated(EnumType.STRING) 
+    @Enumerated(EnumType.STRING)
     private TipoItem tipo;
 
     @NotNull(message = "Campo obrigatório!")
-    @Enumerated(EnumType.STRING) 
+    @Enumerated(EnumType.STRING)
     private RaridadeItem raridade;
 
     @Positive(message = "O preço deve ser positivo e maior que 0")
@@ -42,6 +43,6 @@ public class Item {
 
     @NotNull(message = "Campo obrigatório")
     @ManyToOne
-    private Personagem personagem;
+    private Personagem dono;
 
 }
